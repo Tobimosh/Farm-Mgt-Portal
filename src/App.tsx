@@ -1,12 +1,12 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import FarmRegistrationForm from "./components/FarmRegistrationForm";
+import HomePage from "./pages";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<FarmRegistrationForm />} />
+        <Route path="/" element={<HomePage />} />
       </Routes>
     </>
   );
