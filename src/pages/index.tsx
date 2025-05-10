@@ -8,13 +8,13 @@ import { Tabs, TabContent } from "@/components/Tabs";
 import { Dashboard } from "@/components/Dashboard";
 
 const tabs = [
+  { id: "dashboard", label: "Dashboard", icon: BarChart3 },
   { id: "registration", label: "Farm Registration", icon: Home },
   { id: "daily-report", label: "Daily Report", icon: ClipboardList },
-  { id: "dashboard", label: "Dashboard", icon: BarChart3 },
 ];
 
 const HomePage = () => {
-  const [activeTab, setActiveTab] = useState("registration");
+  const [activeTab, setActiveTab] = useState("dashboard");
 
   return (
     <main className="min-h-screen  from-slate-50 to-slate-100 py-10 px-4">
@@ -27,10 +27,10 @@ const HomePage = () => {
           performance metrics.
         </p>
 
-        <div className="bg-white rounded-lg shadow-sm mb-8">
+        <div className="bg-white mb-8">
           <Tabs
             tabs={tabs}
-            defaultTabId="registration"
+            defaultTabId="dashboard"
             onChange={setActiveTab}
           />
         </div>
@@ -39,6 +39,7 @@ const HomePage = () => {
           <TabContent tabId="dashboard" activeTabId={activeTab}>
             <Dashboard />
           </TabContent>
+          
           <TabContent tabId="registration" activeTabId={activeTab}>
             <FarmRegistrationForm />
           </TabContent>

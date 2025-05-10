@@ -63,7 +63,7 @@ export function Tabs({
 
   return (
     <div className={cn("relative", className)}>
-      <div className="flex items-center justify-center md:justify-start border-b border-slate-200 overflow-x-auto">
+      <div className="flex items-center justify-center md:justify-start border-slate-200 overflow-x-auto">
         {tabs.map((tab, index) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
