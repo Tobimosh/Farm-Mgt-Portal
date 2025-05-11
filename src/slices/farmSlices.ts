@@ -12,13 +12,13 @@ export interface Farm {
   startDate: Date;
 }
 
-interface FarmsState {
+export interface FarmsState {
   farms: Farm[];
   loading: boolean;
   error: string | null;
 }
 
-const initialState: FarmsState = {
+export const initialState: FarmsState = {
   farms: [],
   loading: false,
   error: null,

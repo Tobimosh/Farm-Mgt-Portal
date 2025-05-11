@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -49,7 +48,7 @@ import { toast } from "@/hooks/useToast";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@/store";
 import { registerFarmRequest } from "@/slices/farmSlices";
-import { motion } from "framer-motion";
+import { Button } from "./ui/button";
 
 const formSchema = z.object({
   farmName: z.string().min(2, {
@@ -108,22 +107,12 @@ export default function FarmRegistrationForm() {
     setIsSubmitting(true);
 
     try {
-      // In a real application, this would be an API call
-      // const response = await fetch('/api/farms', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(values),
-      // });
-
-      // Simulate API call
       dispatch(registerFarmRequest(values));
 
       toast({
         title: "Submitting...",
         description: `Registering ${values.farmName}`,
       });
-
-      console.log("Form submitted:", values);
 
       toast({
         title: "Farm registered successfully!",
@@ -313,21 +302,12 @@ export default function FarmRegistrationForm() {
                           </SelectTrigger>
                         </FormControl>
 
-                        <SelectContent>
-                          <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.95 }}
-                            transition={{ duration: 0.2 }}
-                            className="z-50 bg-white shadow-md  rounded-md"
-                          >
-                            {/* Options */}
-                            <SelectItem value="layers">Layers</SelectItem>
-                            <SelectItem value="broilers">Broilers</SelectItem>
-                            <SelectItem value="breeders">Breeders</SelectItem>
-                            <SelectItem value="pullets">Pullets</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
-                          </motion.div>
+                        <SelectContent className="z-50 bg-white shadow-md rounded-md transition-all duration-200">
+                          <SelectItem value="layers">Layers</SelectItem>
+                          <SelectItem value="broilers">Broilers</SelectItem>
+                          <SelectItem value="breeders">Breeders</SelectItem>
+                          <SelectItem value="pullets">Pullets</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage className="text-red-600" />
@@ -366,43 +346,38 @@ export default function FarmRegistrationForm() {
                     <FormLabel>Start Date</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={"outline"}
-                            className={`w-full pl-3 text-left font-normal border-slate-300 focus-visible:ring-green-200 ${
-                              !field.value ? "text-muted-foreground" : ""
-                            }`}
-                          >
-                            {field.value ? (
-                              format(field.value, "PPP")
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent asChild>
-                        <motion.div
-                          initial={{ opacity: 0, y: 0 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -10 }}
-                          transition={{ duration: 0.2 }}
-                          className="w-auto p-0 z-50 bg-white border-none shadow-md rounded-md"
+                        <Button
+                          variant="outline"
+                          className={`w-full pl-3 text-left font-normal border-slate-300 focus-visible:ring-green-200 ${
+                            !field.value ? "text-muted-foreground" : ""
+                          }`}
                         >
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            disabled={(date) =>
-                              date > new Date() || date < new Date("1900-01-01")
-                            }
-                            initialFocus
-                            className="rounded-md"
-                          />
-                        </motion.div>
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </PopoverTrigger>
+
+                      <PopoverContent
+                        align="start"
+                        className="w-auto p-0 z-50 bg-white border-none shadow-md rounded-md transition-all duration-200"
+                      >
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) =>
+                            date > new Date() || date < new Date("1900-01-01")
+                          }
+                          initialFocus
+                          className="rounded-md"
+                        />
                       </PopoverContent>
                     </Popover>
+
                     <FormMessage className="text-red-600" />
                   </FormItem>
                 )}

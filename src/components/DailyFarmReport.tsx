@@ -47,15 +47,9 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/useToast";
-import { motion } from "framer-motion";
-
-const registeredFarms = [
-  { id: "1", name: "Green Valley Farm" },
-  { id: "2", name: "Sunrise Poultry" },
-  { id: "3", name: "Golden Egg Ranch" },
-  { id: "4", name: "Meadow View Farm" },
-  { id: "5", name: "Hilltop Acres" },
-];
+import type { AppDispatch, RootState } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { submitDailyReportRequest } from "@/slices/dailyReportSlice";
 
 const formSchema = z.object({
   farmId: z.string({
@@ -91,6 +85,9 @@ export default function DailyFarmReportForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [, setSelectedFarmName] = useState<string>("");
 
+  const farms = useSelector((state: RootState) => state.farms.farms);
+  const dispatch = useDispatch<AppDispatch>();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -104,20 +101,14 @@ export default function DailyFarmReportForm() {
     setIsSubmitting(true);
 
     try {
-      // In a real application, this would be an API call
-      // const response = await fetch(`/api/farms/${values.farmId}/daily-report`, {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(values),
-      // });
+      dispatch(submitDailyReportRequest(values));
 
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
       console.log("Daily report submitted:", values);
 
       const farmName =
-        registeredFarms.find((farm) => farm.id === values.farmId)?.name ||
+        farms.find((farm) => farm.id === values.farmId)?.farmName ||
         "Unknown farm";
 
       toast({
@@ -200,10 +191,8 @@ export default function DailyFarmReportForm() {
                       <Select
                         onValueChange={(value) => {
                           field.onChange(value);
-                          const farm = registeredFarms.find(
-                            (f) => f.id === value
-                          );
-                          setSelectedFarmName(farm?.name || "");
+                          const farm = farms.find((f) => f.id === value);
+                          setSelectedFarmName(farm?.farmName || "");
                         }}
                         defaultValue={field.value}
                       >
@@ -212,20 +201,12 @@ export default function DailyFarmReportForm() {
                             <SelectValue placeholder="Select a farm" />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
-                          <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.95 }}
-                            transition={{ duration: 0.2 }}
-                            className="z-50 bg-white shadow-md border border-slate-200 rounded-md"
-                          >
-                            {registeredFarms.map((farm) => (
-                              <SelectItem key={farm.id} value={farm.id}>
-                                {farm.name}
-                              </SelectItem>
-                            ))}
-                          </motion.div>
+                        <SelectContent className="z-50 bg-white shadow-md rounded-md transition-all duration-200">
+                          {farms.map((farm) => (
+                            <SelectItem key={farm.id} value={farm.id}>
+                              {farm.farmName}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                       <FormMessage className="text-red-600" />
@@ -241,44 +222,38 @@ export default function DailyFarmReportForm() {
                       <FormLabel>Report Date</FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className={`w-full pl-3 text-left font-normal border-slate-300 focus-visible:ring-green-200 ${
-                                !field.value ? "text-muted-foreground" : ""
-                              }`}
-                            >
-                              {field.value ? (
-                                format(field.value, "PPP")
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent asChild>
-                          <motion.div
-                            initial={{ opacity: 0, y: 0 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            transition={{ duration: 0.2 }}
-                            className="w-auto p-0 z-50 bg-white border-none shadow-md rounded-md"
+                          <Button
+                            variant="outline"
+                            className={`w-full pl-3 text-left font-normal border-slate-300 focus-visible:ring-green-200 ${
+                              !field.value ? "text-muted-foreground" : ""
+                            }`}
                           >
-                            <Calendar
-                              mode="single"
-                              selected={field.value}
-                              onSelect={field.onChange}
-                              disabled={(date) =>
-                                date > new Date() ||
-                                date < new Date("1900-01-01")
-                              }
-                              initialFocus
-                              className="rounded-md"
-                            />
-                          </motion.div>
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </PopoverTrigger>
+
+                        <PopoverContent
+                          align="start"
+                          className="w-auto p-0 z-50 bg-white border-none shadow-md rounded-md transition-all duration-200"
+                        >
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date > new Date() || date < new Date("1900-01-01")
+                            }
+                            initialFocus
+                            className="rounded-md"
+                          />
                         </PopoverContent>
                       </Popover>
+
                       <FormMessage className="text-red-600" />
                     </FormItem>
                   )}
@@ -305,8 +280,8 @@ export default function DailyFarmReportForm() {
                         <div className="relative">
                           <Egg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                           <Input
-                            placeholder="Number of eggs"
                             {...field}
+                            placeholder="Number of eggs"
                             type="number"
                             min="0"
                             className="pl-10 border-slate-300 focus-visible:ring-green-200"
@@ -331,8 +306,8 @@ export default function DailyFarmReportForm() {
                         <div className="relative">
                           <Wheat className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                           <Input
-                            placeholder="Amount in kg"
                             {...field}
+                            placeholder="Amount in kg"
                             type="number"
                             step="0.01"
                             min="0"

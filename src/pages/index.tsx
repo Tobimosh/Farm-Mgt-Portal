@@ -26,11 +26,7 @@ const HomePage = () => {
         </p>
 
         <div className="bg-white max-w-3xl mx-auto mb-8">
-          <Tabs
-            tabs={tabs}
-            defaultTabId="dashboard"
-            onChange={setActiveTab}
-          />
+          <Tabs tabs={tabs} defaultTabId="dashboard" onChange={setActiveTab} />
         </div>
 
         <div className="mt-8">

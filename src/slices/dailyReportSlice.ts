@@ -10,13 +10,13 @@ export interface DailyReport {
   mortality: string;
 }
 
-interface DailyReportState {
+export interface DailyReportState {
   reports: DailyReport[];
   loading: boolean;
   error: string | null;
 }
 
-const initialState: DailyReportState = {
+export const initialState: DailyReportState = {
   reports: [],
   loading: false,
   error: null,
