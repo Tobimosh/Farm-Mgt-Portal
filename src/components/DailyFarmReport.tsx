@@ -202,11 +202,17 @@ export default function DailyFarmReportForm() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent className="z-50 bg-white shadow-md rounded-md transition-all duration-200">
-                          {farms.map((farm) => (
-                            <SelectItem key={farm.id} value={farm.id}>
-                              {farm.farmName}
+                          {farms.length === 0 ? (
+                            <SelectItem disabled value="no-farm">
+                              No registered farm yet
                             </SelectItem>
-                          ))}
+                          ) : (
+                            farms.map((farm) => (
+                              <SelectItem key={farm.id} value={farm.id}>
+                                {farm.farmName}
+                              </SelectItem>
+                            ))
+                          )}
                         </SelectContent>
                       </Select>
                       <FormMessage className="text-red-600" />

@@ -1,6 +1,5 @@
-
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { clearFarmsData } from "./farmSlices"; 
 
 export interface DailyReport {
   farmId: string;
@@ -38,6 +37,14 @@ const dailyReportSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    clearReportsData(state) {
+      state.reports = [];
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(clearFarmsData, (state) => {
+      state.reports = [];
+    });
   },
 });
 
@@ -45,6 +52,7 @@ export const {
   submitDailyReportRequest,
   submitDailyReportSuccess,
   submitDailyReportFailure,
+  clearReportsData,
 } = dailyReportSlice.actions;
 
 export const dailyReportReducer = dailyReportSlice.reducer;
