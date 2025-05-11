@@ -48,6 +48,9 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/useToast";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/store";
+import { registerFarmRequest } from "@/slices/farmSlices";
 
 const formSchema = z.object({
   farmName: z.string().min(2, {
@@ -88,6 +91,9 @@ const formSchema = z.object({
 export default function FarmRegistrationForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const dispatch = useDispatch<AppDispatch>();
+  const { loading } = useSelector((state: RootState) => state.farms);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -111,7 +117,12 @@ export default function FarmRegistrationForm() {
       // });
 
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      dispatch(registerFarmRequest(values));
+
+      toast({
+        title: "Submitting...",
+        description: `Registering ${values.farmName}`,
+      });
 
       console.log("Form submitted:", values);
 
@@ -171,7 +182,7 @@ export default function FarmRegistrationForm() {
                           className="border-slate-300 focus-visible:ring-green-200"
                         />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-red-600" />
                     </FormItem>
                   )}
                 />
@@ -192,7 +203,7 @@ export default function FarmRegistrationForm() {
                           />
                         </div>
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-red-600" />
                     </FormItem>
                   )}
                 />
@@ -228,7 +239,7 @@ export default function FarmRegistrationForm() {
                       <FormDescription className="text-xs">
                         Value between -90 and 90
                       </FormDescription>
-                      <FormMessage />
+                      <FormMessage className="text-red-600" />
                     </FormItem>
                   )}
                 />
@@ -253,7 +264,7 @@ export default function FarmRegistrationForm() {
                       <FormDescription className="text-xs">
                         Value between -180 and 180
                       </FormDescription>
-                      <FormMessage />
+                      <FormMessage className="text-red-600" />
                     </FormItem>
                   )}
                 />
@@ -310,7 +321,7 @@ export default function FarmRegistrationForm() {
                           <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                       </Select>
-                      <FormMessage />
+                      <FormMessage className="text-red-600" />
                     </FormItem>
                   )}
                 />
@@ -330,7 +341,7 @@ export default function FarmRegistrationForm() {
                           className="border-slate-300 focus-visible:ring-green-200"
                         />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-red-600" />
                     </FormItem>
                   )}
                 />
@@ -375,7 +386,7 @@ export default function FarmRegistrationForm() {
                         />
                       </PopoverContent>
                     </Popover>
-                    <FormMessage />
+                    <FormMessage className="text-red-600" />
                   </FormItem>
                 )}
               />

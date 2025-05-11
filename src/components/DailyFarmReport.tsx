@@ -222,7 +222,7 @@ export default function DailyFarmReportForm() {
                           ))}
                         </SelectContent>
                       </Select>
-                      <FormMessage />
+                      <FormMessage className="text-red-600" />
                     </FormItem>
                   )}
                 />
@@ -262,7 +262,7 @@ export default function DailyFarmReportForm() {
                           />
                         </PopoverContent>
                       </Popover>
-                      <FormMessage />
+                      <FormMessage className="text-red-600" />
                     </FormItem>
                   )}
                 />
@@ -299,7 +299,7 @@ export default function DailyFarmReportForm() {
                       <FormDescription className="text-xs">
                         Total count for the day
                       </FormDescription>
-                      <FormMessage />
+                      <FormMessage className="text-red-600" />
                     </FormItem>
                   )}
                 />
@@ -326,7 +326,7 @@ export default function DailyFarmReportForm() {
                       <FormDescription className="text-xs">
                         Total feed used in kilograms
                       </FormDescription>
-                      <FormMessage />
+                      <FormMessage className="text-red-600" />
                     </FormItem>
                   )}
                 />
@@ -352,7 +352,7 @@ export default function DailyFarmReportForm() {
                       <FormDescription className="text-xs">
                         Number of birds lost
                       </FormDescription>
-                      <FormMessage />
+                      <FormMessage className="text-red-600" />
                     </FormItem>
                   )}
                 />

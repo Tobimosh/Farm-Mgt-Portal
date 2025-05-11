@@ -12,7 +12,7 @@ import { v4 as uuid } from "uuid";
 export const registerFarmEpic = (action$: any) =>
   action$.pipe(
     ofType(registerFarmRequest.type),
-    delay(1500), // simulate API call
+    delay(1500),
     map((action: ReturnType<typeof registerFarmRequest>) => {
       const payload = action.payload;
       const newFarm = {
