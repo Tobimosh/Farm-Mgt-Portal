@@ -27,7 +27,6 @@ export function Tabs({
 
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  // Update the indicator position when the active tab changes
   useEffect(() => {
     const activeTabIndex = tabs.findIndex((tab) => tab.id === activeTab);
     const activeTabRef = tabRefs.current[activeTabIndex];
@@ -38,7 +37,6 @@ export function Tabs({
     }
   }, [activeTab, tabs]);
 
-  // Update indicator position on window resize
   useEffect(() => {
     const handleResize = () => {
       const activeTabIndex = tabs.findIndex((tab) => tab.id === activeTab);

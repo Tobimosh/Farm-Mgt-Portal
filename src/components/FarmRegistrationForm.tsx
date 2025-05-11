@@ -313,7 +313,7 @@ export default function FarmRegistrationForm() {
                             <SelectValue placeholder="Select flock type" />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
+                        <SelectContent className="z-50 bg-white shadow-md border border-slate-200 rounded-md">
                           <SelectItem value="layers">Layers</SelectItem>
                           <SelectItem value="broilers">Broilers</SelectItem>
                           <SelectItem value="breeders">Breeders</SelectItem>
@@ -373,15 +373,18 @@ export default function FarmRegistrationForm() {
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
+                      <PopoverContent
+                        className="w-auto p-0 z-50 bg-white border border-slate-200 shadow-md rounded-md"
+                        align="start"
+                      >
                         <Calendar
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          disabled={(date) =>
-                            date > new Date() || date < new Date("1900-01-01")
-                          }
-                          initialFocus
+                          // disabled={(date) =>
+                          //   date > new Date() || date < new Date("1900-01-01")
+                          // }
+                          // initialFocus
                           className="rounded-md border"
                         />
                       </PopoverContent>

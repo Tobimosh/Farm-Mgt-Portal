@@ -50,7 +50,6 @@ import { Calendar } from "@/components/ui/calendar";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/useToast";
 
-// Mock data for registered farms
 const registeredFarms = [
   { id: "1", name: "Green Valley Farm" },
   { id: "2", name: "Sunrise Poultry" },
@@ -214,7 +213,7 @@ export default function DailyFarmReportForm() {
                             <SelectValue placeholder="Select a farm" />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
+                        <SelectContent className="z-50 bg-white shadow-md border border-slate-200 rounded-md">
                           {registeredFarms.map((farm) => (
                             <SelectItem key={farm.id} value={farm.id}>
                               {farm.name}
@@ -251,7 +250,10 @@ export default function DailyFarmReportForm() {
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
+                        <PopoverContent
+                          className="w-auto p-0 z-50 bg-white border border-slate-200 shadow-md rounded-md"
+                          align="start"
+                        >
                           <Calendar
                             mode="single"
                             selected={field.value}

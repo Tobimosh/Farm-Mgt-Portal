@@ -1,4 +1,3 @@
-// store.ts
 import { configureStore } from "@reduxjs/toolkit";
 import { farmsReducer } from "../slices/farmSlices";
 import { createEpicMiddleware } from "redux-observable";
