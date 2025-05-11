@@ -40,10 +40,13 @@ const farmsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    clearFarmsData(state) {
+      state.farms = []; 
+    },
   },
 });
 
-export const { registerFarmRequest, registerFarmSuccess, registerFarmFailure } =
+export const { registerFarmRequest, registerFarmSuccess, registerFarmFailure, clearFarmsData } =
   farmsSlice.actions;
 
 export const farmsReducer = farmsSlice.reducer;

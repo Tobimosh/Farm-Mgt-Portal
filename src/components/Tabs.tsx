@@ -60,8 +60,8 @@ export function Tabs({
   };
 
   return (
-    <div className={cn("relative", className)}>
-      <div className="flex items-center justify-center md:justify-start border-slate-200 overflow-x-auto">
+    <div className={cn("relative overflow-x-auto", className)}>
+      <div className="flex w-max items-center gap-2">
         {tabs.map((tab, index) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -74,7 +74,7 @@ export function Tabs({
               }}
               onClick={() => handleTabClick(tab.id)}
               className={cn(
-                "relative flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+                "relative flex-shrink-0 flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
                 isActive
                   ? "text-green-700"
                   : "text-slate-600 hover:text-slate-900"
@@ -88,7 +88,6 @@ export function Tabs({
           );
         })}
 
-        {/* Animated indicator */}
         <motion.div
           className="absolute bottom-0 h-0.5 bg-green-600 rounded-full"
           initial={false}
