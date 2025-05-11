@@ -308,7 +308,7 @@ export default function FarmRegistrationForm() {
                         defaultValue={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger className="border-slate-300 focus-visible:ring-green-200">
+                          <SelectTrigger className="border-slate-300 w-full focus-visible:ring-green-200">
                             <SelectValue placeholder="Select flock type" />
                           </SelectTrigger>
                         </FormControl>

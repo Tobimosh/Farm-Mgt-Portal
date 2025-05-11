@@ -16,7 +16,7 @@ const HomePage = () => {
 
   return (
     <main className="min-h-screen  from-slate-50 to-slate-100 py-10 px-4">
-      <div className="container mx-auto">
+      <div className="container max-w-3xl mx-auto">
         <h1 className="text-3xl font-bold text-center mb-2 text-slate-800">
           Farm Management System
         </h1>
@@ -25,7 +25,7 @@ const HomePage = () => {
           performance metrics.
         </p>
 
-        <div className="bg-white mb-8">
+        <div className="bg-white max-w-3xl mx-auto mb-8">
           <Tabs
             tabs={tabs}
             defaultTabId="dashboard"

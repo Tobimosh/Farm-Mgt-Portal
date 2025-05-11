@@ -34,7 +34,6 @@ export function Dashboard() {
     mortality: r.mortality,
   }));
 
-  // Group egg production by date for the last 7 days
   const last7Days = Array.from({ length: 7 }, (_, i) =>
     format(subDays(new Date(), 6 - i), "yyyy-MM-dd")
   );
