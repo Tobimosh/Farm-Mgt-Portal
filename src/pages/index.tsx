@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { ClipboardList, BarChart3, Home } from "lucide-react";
 import FarmRegistrationForm from "@/components/FarmRegistrationForm";
@@ -39,7 +37,7 @@ const HomePage = () => {
           <TabContent tabId="dashboard" activeTabId={activeTab}>
             <Dashboard />
           </TabContent>
-          
+
           <TabContent tabId="registration" activeTabId={activeTab}>
             <FarmRegistrationForm />
           </TabContent>
