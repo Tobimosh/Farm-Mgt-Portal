@@ -49,6 +49,7 @@ import { toast } from "@/hooks/useToast";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@/store";
 import { registerFarmRequest } from "@/slices/farmSlices";
+import { motion } from "framer-motion";
 
 const formSchema = z.object({
   farmName: z.string().min(2, {
@@ -311,12 +312,22 @@ export default function FarmRegistrationForm() {
                             <SelectValue placeholder="Select flock type" />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent className="z-50 bg-white shadow-md border border-slate-200 rounded-md">
-                          <SelectItem value="layers">Layers</SelectItem>
-                          <SelectItem value="broilers">Broilers</SelectItem>
-                          <SelectItem value="breeders">Breeders</SelectItem>
-                          <SelectItem value="pullets">Pullets</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
+
+                        <SelectContent>
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            transition={{ duration: 0.2 }}
+                            className="z-50 bg-white shadow-md  rounded-md"
+                          >
+                            {/* Options */}
+                            <SelectItem value="layers">Layers</SelectItem>
+                            <SelectItem value="broilers">Broilers</SelectItem>
+                            <SelectItem value="breeders">Breeders</SelectItem>
+                            <SelectItem value="pullets">Pullets</SelectItem>
+                            <SelectItem value="other">Other</SelectItem>
+                          </motion.div>
                         </SelectContent>
                       </Select>
                       <FormMessage className="text-red-600" />
@@ -371,20 +382,25 @@ export default function FarmRegistrationForm() {
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent
-                        className="w-auto p-0 z-50 bg-white border border-slate-200 shadow-md rounded-md"
-                        align="start"
-                      >
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          // disabled={(date) =>
-                          //   date > new Date() || date < new Date("1900-01-01")
-                          // }
-                          // initialFocus
-                          className="rounded-md border"
-                        />
+                      <PopoverContent asChild>
+                        <motion.div
+                          initial={{ opacity: 0, y: 0 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.2 }}
+                          className="w-auto p-0 z-50 bg-white border-none shadow-md rounded-md"
+                        >
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date > new Date() || date < new Date("1900-01-01")
+                            }
+                            initialFocus
+                            className="rounded-md"
+                          />
+                        </motion.div>
                       </PopoverContent>
                     </Popover>
                     <FormMessage className="text-red-600" />

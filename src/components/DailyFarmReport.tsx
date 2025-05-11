@@ -47,6 +47,7 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/useToast";
+import { motion } from "framer-motion";
 
 const registeredFarms = [
   { id: "1", name: "Green Valley Farm" },
@@ -211,12 +212,20 @@ export default function DailyFarmReportForm() {
                             <SelectValue placeholder="Select a farm" />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent className="z-50 bg-white shadow-md border border-slate-200 rounded-md">
-                          {registeredFarms.map((farm) => (
-                            <SelectItem key={farm.id} value={farm.id}>
-                              {farm.name}
-                            </SelectItem>
-                          ))}
+                        <SelectContent>
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            transition={{ duration: 0.2 }}
+                            className="z-50 bg-white shadow-md border border-slate-200 rounded-md"
+                          >
+                            {registeredFarms.map((farm) => (
+                              <SelectItem key={farm.id} value={farm.id}>
+                                {farm.name}
+                              </SelectItem>
+                            ))}
+                          </motion.div>
                         </SelectContent>
                       </Select>
                       <FormMessage className="text-red-600" />
@@ -248,18 +257,26 @@ export default function DailyFarmReportForm() {
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
-                        <PopoverContent
-                          className="w-auto p-0 z-50 bg-white border border-slate-200 shadow-md rounded-md"
-                          align="start"
-                        >
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            disabled={(date) => date > new Date()}
-                            initialFocus
-                            className="rounded-md border"
-                          />
+                        <PopoverContent asChild>
+                          <motion.div
+                            initial={{ opacity: 0, y: 0 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.2 }}
+                            className="w-auto p-0 z-50 bg-white border-none shadow-md rounded-md"
+                          >
+                            <Calendar
+                              mode="single"
+                              selected={field.value}
+                              onSelect={field.onChange}
+                              disabled={(date) =>
+                                date > new Date() ||
+                                date < new Date("1900-01-01")
+                              }
+                              initialFocus
+                              className="rounded-md"
+                            />
+                          </motion.div>
                         </PopoverContent>
                       </Popover>
                       <FormMessage className="text-red-600" />
