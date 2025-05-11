@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { ClipboardList, BarChart3, Home, Trash2 } from "lucide-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearFarmsData } from "@/slices/farmSlices";
 import FarmRegistrationForm from "@/components/FarmRegistrationForm";
 import DailyFarmReportForm from "@/components/DailyFarmReport";
 import { Tabs, TabContent } from "@/components/Tabs";
 import { Dashboard } from "@/components/Dashboard";
 import { saveState } from "@/lib/localStorage";
+import { toast } from "@/hooks/useToast";
 
 const tabs = [
   { id: "dashboard", label: "Dashboard", icon: BarChart3 },
@@ -17,10 +18,15 @@ const tabs = [
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const dispatch = useDispatch();
+  const farms = useSelector((state: any) => state.farms.farms);
 
   const handleClearFarmData = () => {
     dispatch(clearFarmsData());
     localStorage.removeItem("farms");
+    toast({
+      title: "Farm Details Cleared!",
+      description: `All registered farm details have been cleared`,
+    });
     saveState("farms", []);
   };
 
@@ -38,16 +44,17 @@ const HomePage = () => {
         <div className=" max-w-3xl mx-auto mb-8">
           <Tabs tabs={tabs} defaultTabId="dashboard" onChange={setActiveTab} />
         </div>
-
-        <div className="flex justify-center mb-4">
-          <button
-            onClick={handleClearFarmData}
-            className="flex items-center justify-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-          >
-            <Trash2 className="mr-2" />
-            Clear Farm Data
-          </button>
-        </div>
+        {farms.length > 0 && (
+          <div className="flex justify-center mb-4">
+            <button
+              onClick={handleClearFarmData}
+              className="flex items-center justify-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+            >
+              <Trash2 className="mr-2" />
+              Clear Farm Data
+            </button>
+          </div>
+        )}
 
         <div className="mt-8">
           <TabContent tabId="dashboard" activeTabId={activeTab}>
