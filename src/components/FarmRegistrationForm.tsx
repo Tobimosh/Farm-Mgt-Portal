@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -48,8 +46,8 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/useToast";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "@/store";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "@/store";
 import { registerFarmRequest } from "@/slices/farmSlices";
 
 const formSchema = z.object({
@@ -92,7 +90,7 @@ export default function FarmRegistrationForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
-  const { loading } = useSelector((state: RootState) => state.farms);
+  // const { loading } = useSelector((state: RootState) => state.farms);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
